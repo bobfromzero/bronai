@@ -54,13 +54,14 @@
     /* ── HERO ── */
     .hero {
       min-height: 100vh;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
+      display: flex;
+      flex-direction: column;
       align-items: center;
-      padding: 100px 56px 60px;
+      justify-content: center;
+      text-align: center;
+      padding: 120px 56px 80px;
       position: relative;
       overflow: hidden;
-      gap: 40px;
     }
 
     /* Full-bleed canvas behind everything */
@@ -74,16 +75,16 @@
     .hero-vignette {
       position: absolute; inset: 0; pointer-events: none; z-index: 1;
       background:
-        radial-gradient(ellipse 80% 80% at 70% 50%, rgba(201,169,110,0.04) 0%, transparent 60%),
-        radial-gradient(ellipse 60% 100% at 0% 50%, rgba(7,5,2,0.95) 0%, transparent 55%),
-        radial-gradient(ellipse 100% 60% at 50% 100%, rgba(7,5,2,0.8) 0%, transparent 50%),
-        radial-gradient(ellipse 100% 40% at 50% 0%, rgba(7,5,2,0.6) 0%, transparent 50%);
+        radial-gradient(ellipse 70% 60% at 50% 50%, rgba(201,169,110,0.04) 0%, transparent 65%),
+        radial-gradient(ellipse 100% 40% at 50% 100%, rgba(7,5,2,0.9) 0%, transparent 60%),
+        radial-gradient(ellipse 100% 30% at 50% 0%, rgba(7,5,2,0.7) 0%, transparent 60%);
     }
 
-    /* ── HERO LEFT (text) ── */
+    /* ── HERO TEXT ── */
     .hero-left {
       position: relative; z-index: 2;
-      display: flex; flex-direction: column; align-items: flex-start;
+      display: flex; flex-direction: column; align-items: center;
+      max-width: 900px;
     }
 
     .hero-badge {
@@ -99,9 +100,9 @@
 
     .hero h1 {
       font-family: 'Playfair Display', serif;
-      font-size: clamp(3rem, 4.5vw, 5rem);
+      font-size: clamp(3rem, 5.5vw, 6rem);
       font-weight: 400; line-height: 1.06;
-      margin-bottom: 24px; text-align: left;
+      margin-bottom: 24px; text-align: center;
       animation: fade-right 0.8s 0.1s ease both;
     }
     .hero h1 em {
@@ -111,8 +112,8 @@
     }
 
     .hero p {
-      font-size: 1rem; color: var(--muted); max-width: 440px;
-      line-height: 1.8; margin-bottom: 40px; font-weight: 300; text-align: left;
+      font-size: 1rem; color: var(--muted); max-width: 480px;
+      line-height: 1.8; margin-bottom: 40px; font-weight: 300; text-align: center;
       animation: fade-right 0.8s 0.2s ease both;
     }
 
@@ -151,139 +152,11 @@
     }
     .stat-label { font-size: 0.69rem; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; margin-top: 5px; }
 
-    /* ── HERO RIGHT (visual) ── */
-    .hero-right {
-      position: relative; z-index: 2;
-      display: flex; align-items: center; justify-content: center;
-      height: 100%;
-    }
-
-    /* The main orb - large, cinematic */
-    .orb-wrap {
-      position: relative;
-      width: 480px; height: 480px;
-      animation: float 8s ease-in-out infinite;
-    }
-
-    /* Outer atmospheric glow */
-    .orb-atmosphere {
-      position: absolute; inset: -60px;
-      border-radius: 50%;
-      background: radial-gradient(circle,
-        rgba(201,169,110,0.18) 0%,
-        rgba(201,169,110,0.08) 30%,
-        rgba(139,92,246,0.04) 55%,
-        transparent 70%);
-      animation: atmo-pulse 5s ease-in-out infinite;
-      filter: blur(2px);
-    }
-    @keyframes atmo-pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.55;transform:scale(1.08)} }
-
-    /* The main sphere */
-    .orb-sphere {
-      position: absolute; inset: 0;
-      border-radius: 50%;
-      background: radial-gradient(ellipse at 32% 28%,
-        #f5e6b8 0%,
-        #e8c98a 12%,
-        #c9a96e 28%,
-        #8b6914 48%,
-        #3d2800 65%,
-        #1a1000 80%,
-        #080500 100%);
-      box-shadow:
-        0 0 80px rgba(201,169,110,0.35),
-        0 0 160px rgba(201,169,110,0.15),
-        0 0 300px rgba(201,169,110,0.06),
-        inset -60px -60px 100px rgba(0,0,0,0.75),
-        inset 20px 20px 50px rgba(255,220,140,0.18);
-    }
-    /* Specular */
-    .orb-sphere::after {
-      content: '';
-      position: absolute;
-      width: 32%; height: 22%;
-      background: radial-gradient(ellipse, rgba(255,245,220,0.6) 0%, transparent 70%);
-      top: 11%; left: 16%;
-      border-radius: 50%;
-      filter: blur(6px);
-    }
-
-    /* Gold ring 1 */
-    .orb-ring-1 {
-      position: absolute; inset: -40px;
-      border-radius: 50%;
-      border: 1px solid rgba(201,169,110,0.2);
-      animation: spin1 22s linear infinite;
-    }
-    .orb-ring-1::before {
-      content: ''; position: absolute;
-      width: 12px; height: 12px; background: var(--gold-light); border-radius: 50%;
-      top: -6px; left: 50%; transform: translateX(-50%);
-      box-shadow: 0 0 20px var(--gold), 0 0 40px rgba(201,169,110,0.6);
-    }
-    .orb-ring-1::after {
-      content: ''; position: absolute;
-      width: 8px; height: 8px; background: var(--gold); border-radius: 50%;
-      bottom: -4px; left: 22%;
-      box-shadow: 0 0 14px var(--gold);
-    }
-
-    /* Gold ring 2 — tilted */
-    .orb-ring-2 {
-      position: absolute; inset: -80px;
-      border-radius: 50%;
-      border: 1px solid rgba(201,169,110,0.1);
-      transform: rotateX(70deg);
-      animation: spin2 38s linear infinite reverse;
-    }
-    .orb-ring-2::before {
-      content: ''; position: absolute;
-      width: 8px; height: 8px; background: var(--gold-dim); border-radius: 50%;
-      top: -4px; right: 20%;
-      box-shadow: 0 0 12px var(--gold-dim);
-    }
-
-    /* Ring 3 — equatorial */
-    .orb-ring-3 {
-      position: absolute; inset: -20px;
-      border-radius: 50%;
-      border: 1px solid rgba(201,169,110,0.12);
-      transform: rotateY(60deg);
-      animation: spin1 30s linear infinite;
-    }
-
-    @keyframes spin1 {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
-    @keyframes spin2 {
-      from { transform: rotateX(70deg) rotate(0deg); }
-      to { transform: rotateX(70deg) rotate(360deg); }
-    }
-    @keyframes float {
-      0%,100% { transform: translateY(0); }
-      50% { transform: translateY(-22px); }
-    }
-
-    /* Reflection on "floor" */
-    .orb-reflection {
-      position: absolute;
-      bottom: -30px; left: 50%;
-      transform: translateX(-50%);
-      width: 340px; height: 50px;
-      background: radial-gradient(ellipse, rgba(201,169,110,0.2) 0%, transparent 70%);
-      filter: blur(16px);
-      animation: reflect-fade 8s ease-in-out infinite;
-    }
-    @keyframes reflect-fade {
-      0%,100% { opacity: 0.8; transform: translateX(-50%) scaleY(1); }
-      50% { opacity: 0.3; transform: translateX(-50%) scaleY(0.5); }
-    }
+    @keyframes atmo-pulse { 0%,100%{opacity:1} 50%{opacity:0.6} }
 
     @keyframes fade-right {
-      from { opacity: 0; transform: translateX(-20px); }
-      to { opacity: 1; transform: translateX(0); }
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     /* ── REVEAL ── */
@@ -444,10 +317,7 @@
 
     /* ── MOBILE ── */
     @media (max-width: 900px) {
-      .hero { grid-template-columns: 1fr; padding: 100px 24px 60px; text-align: center; }
-      .hero-left { align-items: center; }
-      .hero h1, .hero p { text-align: center; }
-      .hero-right { display: none; }
+      .hero { padding: 100px 24px 60px; }
       nav { padding: 16px 24px; }
       .nav-links { display: none; }
       section { padding: 60px 24px; }
@@ -497,17 +367,7 @@
       </div>
     </div>
 
-    <!-- RIGHT: Cinematic orb -->
-    <div class="hero-right">
-      <div class="orb-wrap">
-        <div class="orb-atmosphere"></div>
-        <div class="orb-sphere"></div>
-        <div class="orb-ring-1"></div>
-        <div class="orb-ring-2"></div>
-        <div class="orb-ring-3"></div>
-        <div class="orb-reflection"></div>
-      </div>
-    </div>
+
   </div>
 
   <!-- LOGOS -->
