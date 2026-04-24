@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BronAI — AI Automation for Modern Businesses</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap');
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #080808;
+      --bg2: #0e0e0e;
+      --gold: #c9a96e;
+      --gold-light: #e8c98a;
+      --white: #f0ece4;
+      --muted: #888;
+      --card-bg: rgba(255,255,255,0.03);
+      --card-border: rgba(255,255,255,0.07);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--white);
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 22px 48px;
+      background: rgba(8,8,8,0.6);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      color: var(--gold-light);
+      letter-spacing: 0.04em;
+    }
+    .nav-links {
+      display: flex;
+      gap: 36px;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.82rem;
+      font-weight: 400;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--white); }
+    .nav-cta {
+      background: transparent;
+      border: 1px solid var(--gold);
+      color: var(--gold-light);
+      padding: 9px 22px;
+      border-radius: 100px;
+      font-size: 0.82rem;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: background 0.2s, color 0.2s;
+    }
+    .nav-cta:hover { background: var(--gold); color: #080808; }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 120px 24px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Background glow orb */
+    .hero::before {
+      content: '';
+      position: absolute;
+      width: 700px; height: 700px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(201,169,110,0.12) 0%, rgba(201,169,110,0.04) 40%, transparent 70%);
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+
+    /* Floating 3D orb */
+    .hero-orb {
+      width: 280px; height: 280px;
+      border-radius: 50%;
+      background: radial-gradient(ellipse at 35% 35%,
+        #e8c98a 0%,
+        #c9a96e 25%,
+        #8b6914 50%,
+        #3a2800 70%,
+        #0e0a00 100%);
+      box-shadow:
+        0 0 80px rgba(201,169,110,0.25),
+        0 0 160px rgba(201,169,110,0.1),
+        inset -30px -30px 60px rgba(0,0,0,0.6),
+        inset 10px 10px 30px rgba(255,220,140,0.2);
+      margin-bottom: 48px;
+      animation: float 6s ease-in-out infinite;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Reflection */
+    .hero-orb-reflection {
+      width: 280px; height: 60px;
+      background: radial-gradient(ellipse, rgba(201,169,110,0.15) 0%, transparent 70%);
+      margin-top: -24px;
+      margin-bottom: 48px;
+      filter: blur(8px);
+      animation: float-reflection 6s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-18px); }
+    }
+    @keyframes float-reflection {
+      0%, 100% { transform: translateY(0px) scaleY(1); opacity: 0.6; }
+      50% { transform: translateY(10px) scaleY(0.7); opacity: 0.3; }
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(201,169,110,0.08);
+      border: 1px solid rgba(201,169,110,0.2);
+      border-radius: 100px;
+      padding: 6px 16px;
+      font-size: 0.75rem;
+      color: var(--gold);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 28px;
+    }
+    .hero-badge span { width: 6px; height: 6px; background: var(--gold); border-radius: 50%; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(1.3)} }
+
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.8rem, 6vw, 5rem);
+      font-weight: 400;
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+      color: var(--white);
+      max-width: 800px;
+      margin-bottom: 24px;
+    }
+    .hero h1 em {
+      font-style: italic;
+      color: var(--gold-light);
+    }
+
+    .hero p {
+      font-size: 1.05rem;
+      color: var(--muted);
+      max-width: 520px;
+      line-height: 1.7;
+      margin-bottom: 40px;
+      font-weight: 300;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .btn-primary {
+      background: var(--gold);
+      color: #080808;
+      padding: 14px 32px;
+      border-radius: 100px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .btn-primary:hover { background: var(--gold-light); transform: translateY(-1px); }
+    .btn-secondary {
+      color: var(--muted);
+      font-size: 0.88rem;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: color 0.2s;
+    }
+    .btn-secondary:hover { color: var(--white); }
+    .btn-secondary::after { content: '↗'; }
+
+    .hero-stats {
+      display: flex;
+      gap: 48px;
+      margin-top: 64px;
+      padding-top: 40px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .stat { text-align: center; }
+    .stat-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      color: var(--gold-light);
+    }
+    .stat-label {
+      font-size: 0.75rem;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+
+    /* ── LOGOS ── */
+    .logos-section {
+      padding: 32px 48px;
+      border-top: 1px solid var(--card-border);
+      border-bottom: 1px solid var(--card-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .logos-label {
+      font-size: 0.72rem;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-right: 16px;
+    }
+    .logo-pill {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 100px;
+      padding: 8px 20px;
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.4);
+      letter-spacing: 0.04em;
+    }
+
+    /* ── SECTIONS ── */
+    section { padding: 100px 48px; max-width: 1100px; margin: 0 auto; }
+
+    .section-label {
+      font-size: 0.72rem;
+      color: var(--gold);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 400;
+      line-height: 1.2;
+      margin-bottom: 20px;
+    }
+    .section-title em { font-style: italic; color: var(--gold-light); }
+    .section-subtitle {
+      font-size: 1rem;
+      color: var(--muted);
+      line-height: 1.7;
+      max-width: 520px;
+      font-weight: 300;
+    }
+
+    /* ── SERVICES ── */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-top: 60px;
+    }
+    .service-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 36px 32px;
+      transition: border-color 0.3s, transform 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .service-card:hover { border-color: rgba(201,169,110,0.2); transform: translateY(-4px); }
+    .service-card:hover::before { opacity: 1; }
+    .service-icon {
+      width: 48px; height: 48px;
+      background: rgba(201,169,110,0.08);
+      border: 1px solid rgba(201,169,110,0.15);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      margin-bottom: 24px;
+    }
+    .service-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem;
+      font-weight: 400;
+      margin-bottom: 12px;
+      color: var(--white);
+    }
+    .service-card p {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.7;
+      font-weight: 300;
+    }
+
+    /* ── SALON FOCUS ── */
+    .salon-section {
+      background: var(--bg2);
+      max-width: 100%;
+      padding: 100px 0;
+    }
+    .salon-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 48px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+    .salon-visual {
+      background: rgba(201,169,110,0.04);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      padding: 32px;
+      position: relative;
+    }
+    .chat-bubble {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--card-border);
+      border-radius: 16px 16px 16px 4px;
+      padding: 14px 18px;
+      font-size: 0.85rem;
+      color: var(--white);
+      margin-bottom: 12px;
+      max-width: 80%;
+      line-height: 1.5;
+    }
+    .chat-bubble.ai {
+      background: rgba(201,169,110,0.08);
+      border-color: rgba(201,169,110,0.15);
+      border-radius: 16px 16px 4px 16px;
+      margin-left: auto;
+      color: var(--gold-light);
+    }
+    .chat-label {
+      font-size: 0.68rem;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .chat-label.ai { text-align: right; color: var(--gold); }
+    .chat-time {
+      font-size: 0.68rem;
+      color: rgba(255,255,255,0.2);
+      margin-top: 4px;
+    }
+    .chat-divider {
+      text-align: center;
+      font-size: 0.7rem;
+      color: var(--muted);
+      margin: 16px 0;
+      letter-spacing: 0.06em;
+    }
+    .salon-features {
+      list-style: none;
+      margin-top: 32px;
+    }
+    .salon-features li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 20px;
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+    .salon-features li::before {
+      content: '✦';
+      color: var(--gold);
+      font-size: 0.7rem;
+      margin-top: 3px;
+      flex-shrink: 0;
+    }
+
+    /* ── HOW IT WORKS ── */
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      margin-top: 60px;
+    }
+    .step {
+      padding: 40px 32px;
+      border: 1px solid var(--card-border);
+      position: relative;
+    }
+    .step:first-child { border-radius: 20px 0 0 20px; }
+    .step:last-child { border-radius: 0 20px 20px 0; }
+    .step-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 3rem;
+      color: rgba(201,169,110,0.15);
+      line-height: 1;
+      margin-bottom: 20px;
+    }
+    .step h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: var(--white);
+    }
+    .step p {
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.6;
+      font-weight: 300;
+    }
+
+    /* ── CTA ── */
+    .cta-section {
+      text-align: center;
+      padding: 120px 48px;
+      max-width: 100%;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      width: 600px; height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(201,169,110,0.07) 0%, transparent 70%);
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+    .cta-inner { position: relative; z-index: 1; max-width: 640px; margin: 0 auto; }
+    .cta-section h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 400;
+      margin-bottom: 20px;
+      line-height: 1.2;
+    }
+    .cta-section h2 em { font-style: italic; color: var(--gold-light); }
+    .cta-section p {
+      color: var(--muted);
+      margin-bottom: 40px;
+      font-size: 1rem;
+      line-height: 1.7;
+      font-weight: 300;
+    }
+    .cta-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    .btn-outline {
+      border: 1px solid rgba(255,255,255,0.15);
+      color: var(--muted);
+      padding: 14px 32px;
+      border-radius: 100px;
+      font-size: 0.88rem;
+      text-decoration: none;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-outline:hover { border-color: var(--white); color: var(--white); }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 40px 48px;
+      border-top: 1px solid var(--card-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .footer-logo {
+      font-family: 'Playfair Display', serif;
+      color: var(--gold-light);
+      font-size: 1.1rem;
+    }
+    .footer-links { display: flex; gap: 24px; }
+    .footer-links a {
+      font-size: 0.8rem;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--white); }
+    .footer-copy { font-size: 0.78rem; color: rgba(255,255,255,0.2); }
+
+    /* ── MOBILE ── */
+    @media (max-width: 768px) {
+      nav { padding: 18px 20px; }
+      .nav-links { display: none; }
+      section { padding: 60px 20px; }
+      .services-grid { grid-template-columns: 1fr; }
+      .steps { grid-template-columns: 1fr; }
+      .step:first-child,.step:last-child { border-radius: 0; }
+      .step:first-child { border-radius: 20px 20px 0 0; }
+      .step:last-child { border-radius: 0 0 20px 20px; }
+      .salon-inner { grid-template-columns: 1fr; gap: 40px; padding: 0 20px; }
+      .hero-stats { gap: 24px; }
+      .logos-section { padding: 24px 20px; }
+      footer { padding: 32px 20px; }
+      .cta-section { padding: 80px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">BronAI</div>
+    <ul class="nav-links">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#salons">For Salons</a></li>
+      <li><a href="#process">Process</a></li>
+    </ul>
+    <a href="mailto:prenclavsalekss@gmail.com" class="nav-cta">Get in Touch ↗</a>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-badge"><span></span> AI Automation Studio</div>
+    <div class="hero-orb"></div>
+    <div class="hero-orb-reflection"></div>
+    <h1>Your business,<br /><em>automated.</em></h1>
+    <p>I build AI systems that handle your DMs, book appointments, and grow your business — so you can focus on the work you actually love.</p>
+    <div class="hero-actions">
+      <a href="mailto:prenclavsalekss@gmail.com" class="btn-primary">Book a Free Call ↗</a>
+      <a href="#services" class="btn-secondary">See what I build</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-number">24/7</div>
+        <div class="stat-label">Always On</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">&lt; 5s</div>
+        <div class="stat-label">Reply Time</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">$0</div>
+        <div class="stat-label">Missed Bookings</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LOGOS -->
+  <div class="logos-section">
+    <span class="logos-label">Powered by</span>
+    <span class="logo-pill">OpenAI</span>
+    <span class="logo-pill">Ollama</span>
+    <span class="logo-pill">Instagram API</span>
+    <span class="logo-pill">Meta DMs</span>
+    <span class="logo-pill">Google Calendar</span>
+    <span class="logo-pill">Hermes Agent</span>
+  </div>
+
+  <!-- SERVICES -->
+  <section id="services">
+    <div class="section-label">What I build</div>
+    <h2 class="section-title">Three ways I<br /><em>transform</em> your business</h2>
+    <p class="section-subtitle">From instant DM replies to full calendar automation — I build the system once, and it works for you forever.</p>
+
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-icon">💬</div>
+        <h3>Business Automation</h3>
+        <p>Automate your Instagram and Facebook DMs. Every inquiry gets an instant, intelligent reply — booking appointments, answering FAQs, qualifying leads. Never lose a client to slow responses again.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">🤖</div>
+        <h3>AI Agent Build</h3>
+        <p>Custom AI agents built for your specific workflow. From lead qualification to customer follow-ups — I build agents that think, adapt, and handle the repetitive work your team hates.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">⚡</div>
+        <h3>AI Consulting</h3>
+        <p>Not sure where AI fits in your business? I'll map out exactly where automation saves you the most time and money, then build it. No fluff, no jargon — just results.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SALON FOCUS -->
+  <div class="salon-section" id="salons">
+    <div class="salon-inner">
+      <div>
+        <div class="section-label">Salon & Beauty Focus</div>
+        <h2 class="section-title">Your DMs,<br /><em>answered instantly</em></h2>
+        <p class="section-subtitle" style="margin-bottom: 32px;">Salons lose bookings every day to unanswered DMs. I build AI systems that reply in seconds, check availability, and book directly into your calendar — on Instagram and Facebook.</p>
+        <ul class="salon-features">
+          <li>Instant replies to DMs on Instagram & Facebook, 24/7 — even at 2am</li>
+          <li>AI checks your live calendar and books appointments automatically</li>
+          <li>Handles pricing questions, service info, and FAQs without you lifting a finger</li>
+          <li>Sends confirmation & reminder messages to reduce no-shows</li>
+          <li>Integrates with Google Calendar, Calendly, or your booking software</li>
+        </ul>
+      </div>
+      <div class="salon-visual">
+        <div class="chat-label">Client on Instagram</div>
+        <div class="chat-bubble">Hi! Do you have availability for a cut and color this Saturday around 2pm? 💇‍♀️</div>
+        <div class="chat-time">Saturday, 11:47pm</div>
+
+        <div class="chat-divider">— AI replied in 3 seconds —</div>
+
+        <div class="chat-label ai">BronAI Assistant</div>
+        <div class="chat-bubble ai">Hey! 👋 Yes, we have Saturday 2:00pm available for cut & color (2.5hrs). Want me to book it for you? Just confirm your name and I'll lock it in!</div>
+        <div class="chat-time" style="text-align:right;">Saturday, 11:47pm</div>
+
+        <div style="margin-top: 20px;">
+          <div class="chat-label">Client</div>
+          <div class="chat-bubble">Yes please! It's Anna 🙏</div>
+          <div class="chat-divider">— Appointment booked in Google Calendar —</div>
+          <div class="chat-label ai">BronAI Assistant</div>
+          <div class="chat-bubble ai">Done! ✅ Booked Anna — Saturday 2:00pm. You'll get a reminder Friday evening. See you then! 💛</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HOW IT WORKS -->
+  <section id="process">
+    <div class="section-label">The Process</div>
+    <h2 class="section-title">Up and running<br /><em>in days, not months</em></h2>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-number">01</div>
+        <h3>Discovery Call</h3>
+        <p>We talk for 30 minutes. I learn your business, your biggest time drains, and where clients fall through the cracks. Free, no commitment.</p>
+      </div>
+      <div class="step">
+        <div class="step-number">02</div>
+        <h3>I Build It</h3>
+        <p>I build your custom AI system — connected to your Instagram, Facebook, and calendar. You see it before it goes live. Usually done in 3–5 days.</p>
+      </div>
+      <div class="step">
+        <div class="step-number">03</div>
+        <h3>You Grow</h3>
+        <p>Your AI handles the DMs. You handle the clients. I stay available for tweaks and improvements. Your business runs 24/7 — even when you don't.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <div class="cta-section">
+    <div class="cta-inner">
+      <div class="section-label" style="text-align:center;">Ready to automate?</div>
+      <h2>Let's build your<br /><em>AI-powered business</em></h2>
+      <p>Book a free 30-minute call. I'll show you exactly what's possible for your business and what it would take to build it.</p>
+      <div class="cta-buttons">
+        <a href="mailto:prenclavsalekss@gmail.com" class="btn-primary">Book Free Call ↗</a>
+        <a href="mailto:prenclavsalekss@gmail.com" class="btn-outline">Send a Message</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">BronAI</div>
+    <div class="footer-links">
+      <a href="#services">Services</a>
+      <a href="#salons">For Salons</a>
+      <a href="mailto:prenclavsalekss@gmail.com">Contact</a>
+    </div>
+    <div class="footer-copy">© 2026 BronAI. All rights reserved.</div>
+  </footer>
+
+</body>
+</html>
